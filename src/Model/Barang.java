@@ -1,0 +1,6 @@
+/**
+ * Barang
+ */
+public interface Barang {
+
+}

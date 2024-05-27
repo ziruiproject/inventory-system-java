@@ -1,0 +1,6 @@
+/**
+ * Kategori
+ */
+public interface Kategori {
+
+}

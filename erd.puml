@@ -1,3 +1,4 @@
+@startuml
 interface Barang {
     # id : String
     # nama : String
@@ -32,3 +33,4 @@ interface BarangKategori {
 
 Barang -d-> BarangKategori
 Kategori -d-> BarangKategori
+@enduml

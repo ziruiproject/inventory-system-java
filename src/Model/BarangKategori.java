@@ -1,0 +1,6 @@
+/**
+ * BarangKategori
+ */
+public interface BarangKategori {
+
+}
