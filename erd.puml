@@ -1,0 +1,34 @@
+interface Barang {
+    # id : String
+    # nama : String
+    # stok : int
+    # description : String
+    # kategori : Kategori
+    # createdAt : int
+    # updatedAt : int
+    ---
+    # create() : void
+    # update(Barang barang): void
+    # {static} find(String id) : Barang
+    # {static} delete(String id) : Barang
+}
+
+interface Kategori {
+    # id : int 
+    # nama : String
+    # createdAt : int
+    # updatedAt : int
+    ---
+    # create() : void
+    # update(Kategori kategori): void
+    # {static} find(int id) : Barang
+    # {static} delete(int id) : Barang
+}
+
+interface BarangKategori {
+    # barang : Barang
+    # kategori : Kategori
+}
+
+Barang -d-> BarangKategori
+Kategori -d-> BarangKategori
