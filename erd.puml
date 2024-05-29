@@ -1,5 +1,5 @@
 @startuml
-interface Barang {
+class Barang {
     # id : String
     # nama : String
     # stok : int
@@ -14,7 +14,7 @@ interface Barang {
     # {static} delete(String id) : Barang
 }
 
-interface Kategori {
+class Kategori {
     # id : int 
     # nama : String
     # createdAt : int
@@ -26,7 +26,7 @@ interface Kategori {
     # {static} delete(int id) : Barang
 }
 
-interface BarangKategori {
+class BarangKategori {
     # barang : Barang
     # kategori : Kategori
 }
