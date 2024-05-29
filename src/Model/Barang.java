@@ -19,10 +19,10 @@ public class Barang {
         this.nama = nama;
         this.stok = stok;
         this.harga = harga;
-//        this.description = description;
-//        this.kategori = kategori;
-//        this.createdAt = createdAt;
-//        this.updatedAt = updatedAt; k
+        this.description = description;
+        this.kategori = kategori;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getId(){
