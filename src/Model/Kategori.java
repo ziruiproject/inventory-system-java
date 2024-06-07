@@ -1,5 +1,7 @@
 package Model;
 
+import java.time.LocalDateTime;
+
 /**
  * Kategori
  */
@@ -7,14 +9,14 @@ package Model;
 public class Kategori {
     protected int id;
     protected String nama;
-    protected int createdAt;
-    protected int updatedAt;
+    protected LocalDateTime createdAt;
+    protected LocalDateTime updatedAt;
 
-    public Kategori(int id, String nama, int createdAt, int updatedAt) {
+    public Kategori(int id, String nama) {
         this.id = id;
         this.nama = nama;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Kategori() {
@@ -28,7 +30,7 @@ public class Kategori {
         this.id = id;
     }
 
-    public String getNama() {
+    public String getName() {
         return nama;
     }
 
@@ -36,41 +38,15 @@ public class Kategori {
         this.nama = nama;
     }
 
-    public int getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(int createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public int getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(int updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public void create() {
-
-    }
-
-    public void update(Kategori kategori) {
-        this.nama = kategori.getNama();
-        this.updatedAt = (int) (System.currentTimeMillis() / 1000L);
-        System.out.println("Kategori diupdate: " + this.toString());
-    }
-
-
-    public static Kategori find(int id) {
-        return new Kategori(id, "Nama Barang: ", (int) (System.currentTimeMillis() / 1000L), (int) (System.currentTimeMillis() / 1000L));
-    }
-
-
-    public static Kategori delete(int id) {
-        Kategori deletedKategori = find(id);
-        System.out.println("Kategori dihapus : " + deletedKategori.toString());
-        return deletedKategori;
+    public void setUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

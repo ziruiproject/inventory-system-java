@@ -1,5 +1,7 @@
 package Model;
 
+import java.time.LocalDateTime;
+
 /**
  * Barang
  */
@@ -9,27 +11,27 @@ public class Barang {
     protected String nama;
     protected int stok;
     protected String description;
-    protected Kategori kategori;
-    protected int createdAt;
-    protected int updatedAt;
+    protected String kategori;
+    protected LocalDateTime createdAt;
+    protected LocalDateTime updatedAt;
     protected int harga;
 
-    public Barang(String id, String nama, int stok, int harga) {
+    public Barang(String id, String nama, int stok, int harga, String description, String kategori) {
         this.id = id;
         this.nama = nama;
         this.stok = stok;
         this.harga = harga;
         this.description = description;
         this.kategori = kategori;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public String getId(){
+    public String getId() {
         return id;
     }
 
-    public String getNama(){
+    public String getNama() {
         return nama;
     }
 
@@ -37,47 +39,40 @@ public class Barang {
         this.nama = nama;
     }
 
-    public int getStok(){
+    public int getStok() {
         return stok;
     }
-    public void setStok(int stok){
+
+    public void setStok(int stok) {
         this.stok = stok;
     }
-    public String getDescription(){
+
+    public String getDescription() {
         return description;
     }
-    public void setDescription(String description){
-        this.description= description;
+
+    public void setDescription(String description) {
+        this.description = description;
     }
-    public Kategori getKategori() {
+
+    public String getKategori() {
         return kategori;
     }
-    public void setKategori(Kategori kategori) {
+
+    public void setKategori(String kategori) {
         this.kategori = kategori;
     }
-    public int getCreatedAt() {
+
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-    public void setCreatedAt(int createdAt) {
-        this.createdAt = createdAt;
-    }
-    public int getUpdatedAt() {
+
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-    public void setUpdatedAt(int updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    public void create(){
 
-    }
-    public void update(Barang barang){
-
-    }
-    public Barang find(String id){
-        return null;
-    }
-    public Barang delete(String id){
-        return null;
+    public void setUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public void setId(String id) {
@@ -87,8 +82,8 @@ public class Barang {
     public int getHarga() {
         return harga;
     }
+
     public void setHarga(int harga) {
         this.harga = harga;
     }
 }
-

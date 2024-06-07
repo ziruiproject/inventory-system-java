@@ -2,12 +2,16 @@ package View;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import Model.Barang;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class View {
     private JFrame frame;
-    private JPanel mainPanel;
     private JTable productTable, categoryTable;
     private JButton productAddButton, productEditButton, productDeleteButton, productViewButton;
     private JButton categoryAddButton, categoryEditButton, categoryDeleteButton, categoryViewButton;
@@ -24,12 +28,13 @@ public class View {
         frame.setLayout(new BorderLayout());
 
         // Set up the sidebar for categories and products
-        String[] sidebarItems = {"Products", "Categories"};
+        String[] sidebarItems = { "Products", "Categories" };
         sidebar = new JList<>(sidebarItems);
         sidebar.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         sidebar.setSelectedIndex(0);
 
-        // Set up the main panel with CardLayout to switch between product and category views
+        // Set up the main panel with CardLayout to switch between product and category
+        // views
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
@@ -85,21 +90,12 @@ public class View {
         productPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Set up the table for displaying product data
-        String[] columnNames = {"Product ID", "Name", "Stock", "Price", "Description", "Category", "Created At", "Updated At"};
+        String[] columnNames = { "Product ID", "Name", "Stock", "Price", "Description", "Category", "Created At",
+                "Updated At" };
         productTableModel = new DefaultTableModel(columnNames, 0);
         productTable = new JTable(productTableModel);
         JScrollPane scrollPane = new JScrollPane(productTable);
         productPanel.add(scrollPane, BorderLayout.CENTER);
-    }
-
-
-    private void viewProduct() {
-    }
-
-    private void deleteProduct() {
-    }
-
-    private void editProduct() {
     }
 
     private void setupCategoryPanel(JPanel categoryPanel) {
@@ -123,29 +119,14 @@ public class View {
         categoryPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Set up the table for displaying category data
-        String[] columnNames = {"Category ID", "Name"};
+        String[] columnNames = { "Category ID", "Name" };
         categoryTableModel = new DefaultTableModel(columnNames, 0);
         categoryTable = new JTable(categoryTableModel);
         JScrollPane scrollPane = new JScrollPane(categoryTable);
         categoryPanel.add(scrollPane, BorderLayout.CENTER);
-
-        // Add action listeners to buttons
-        categoryAddButton.addActionListener(e -> showAddCategoryDialog());
-        categoryEditButton.addActionListener(e -> editCategory());
-        categoryDeleteButton.addActionListener(e -> deleteCategory());
-        categoryViewButton.addActionListener(e -> viewCategory());
     }
 
-    private void viewCategory() {
-    }
-
-    private void deleteCategory() {
-    }
-
-    private void editCategory() {
-    }
-
-    public String[] showAddProductDialog() {
+    public String[] showAddProductDialog(String[] categories) {
         JTextField idField = new JTextField(10);
         JTextField nameField = new JTextField(20);
         JTextField quantityField = new JTextField(10);
@@ -153,7 +134,6 @@ public class View {
         JTextField descriptionField = new JTextField(20);
 
         // Assuming categories are fetched from some controller or predefined list
-        String[] categories = {"Category1", "Category2", "Category3"}; // replace with actual categories
         JComboBox<String> categoryComboBox = new JComboBox<>(categories);
 
         // Current date-time as default values for createdAt and updatedAt
@@ -182,9 +162,10 @@ public class View {
         panel.add(new JLabel("Updated At:"));
         panel.add(updatedAtField);
 
-        int result = JOptionPane.showConfirmDialog(frame, panel, "Add Product", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(frame, panel, "Add Product", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
-            return new String[]{
+            return new String[] {
                     idField.getText(),
                     nameField.getText(),
                     quantityField.getText(),
@@ -198,6 +179,70 @@ public class View {
         return null;
     }
 
+    public String[] showEditProductDialog(String[] categories, Barang existingProductData) {
+        JTextField idField = new JTextField(10);
+        idField.setText(existingProductData.getId());
+        idField.setEditable(false); // making Product ID non-editable
+
+        JTextField nameField = new JTextField(20);
+        nameField.setText(existingProductData.getNama());
+
+        JTextField quantityField = new JTextField(10);
+        quantityField.setText(Integer.toString(existingProductData.getStok()));
+
+        JTextField priceField = new JTextField(10);
+        priceField.setText(Integer.toString(existingProductData.getHarga()));
+
+        JTextField descriptionField = new JTextField(20);
+        descriptionField.setText(existingProductData.getDescription());
+
+        JComboBox<String> categoryComboBox = new JComboBox<>(categories);
+        categoryComboBox.setSelectedItem(existingProductData.getKategori());
+
+        JTextField createdAtField = new JTextField(20);
+        createdAtField
+                .setText(existingProductData.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        createdAtField.setEditable(false); // making it non-editable
+
+        JTextField updatedAtField = new JTextField(20);
+        updatedAtField
+                .setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        updatedAtField.setEditable(false); // making it non-editable
+
+        JPanel panel = new JPanel(new GridLayout(9, 2));
+        panel.add(new JLabel("Product ID:"));
+        panel.add(idField);
+        panel.add(new JLabel("Name:"));
+        panel.add(nameField);
+        panel.add(new JLabel("Quantity:"));
+        panel.add(quantityField);
+        panel.add(new JLabel("Price:"));
+        panel.add(priceField);
+        panel.add(new JLabel("Description:"));
+        panel.add(descriptionField);
+        panel.add(new JLabel("Category:"));
+        panel.add(categoryComboBox);
+        panel.add(new JLabel("Created At:"));
+        panel.add(createdAtField);
+        panel.add(new JLabel("Updated At:"));
+        panel.add(updatedAtField);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Edit Product", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            return new String[] {
+                    idField.getText(),
+                    nameField.getText(),
+                    quantityField.getText(),
+                    priceField.getText(),
+                    descriptionField.getText(),
+                    (String) categoryComboBox.getSelectedItem(),
+                    createdAtField.getText(),
+                    updatedAtField.getText()
+            };
+        }
+        return null;
+    }
 
     public String[] showAddCategoryDialog() {
         JTextField idField = new JTextField(10);
@@ -209,9 +254,10 @@ public class View {
         panel.add(new JLabel("Name:"));
         panel.add(nameField);
 
-        int result = JOptionPane.showConfirmDialog(frame, panel, "Add Category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(frame, panel, "Add Category", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
-            return new String[]{idField.getText(), nameField.getText()};
+            return new String[] { idField.getText(), nameField.getText() };
         }
         return null;
     }
@@ -252,12 +298,32 @@ public class View {
         productTableModel.setRowCount(0);
     }
 
+    public void clearKategoriTable() {
+        categoryTableModel.setRowCount(0);
+    }
+
     public void addProductToTable(Object[] rowData) {
         productTableModel.addRow(rowData);
     }
 
+    public void addKategoriToTable(Object[] rowData) {
+        categoryTableModel.addRow(rowData);
+    }
+
     public int getSelectedProductRow() {
         return productTable.getSelectedRow();
+    }
+
+    public int getSelectedKategoriRow() {
+        return categoryTable.getSelectedRow();
+    }
+
+    public String getSelectedProductID(int selectedRow) {
+        return productTable.getValueAt(selectedRow, 0).toString();
+    }
+
+    public String getSelectedKategoriId(int selectedRow) {
+        return categoryTable.getValueAt(selectedRow, 0).toString();
     }
 
     public JFrame getFrame() {

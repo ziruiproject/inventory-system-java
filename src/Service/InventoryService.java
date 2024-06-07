@@ -11,8 +11,8 @@ public class InventoryService {
     private Barang[] barangList;
 
     private InventoryService() {
-        kategoriList = new Kategori[1];
-        barangList = new Barang[1];
+        kategoriList = new Kategori[0];
+        barangList = new Barang[0];
     }
 
     public static InventoryService getInstance() {
@@ -23,11 +23,7 @@ public class InventoryService {
     }
 
     public Kategori[] getKategoriList() {
-        Kategori[] copy = new Kategori[kategoriList.length];
-        for (int i = 0; i < kategoriList.length; i++) {
-            copy[i] = kategoriList[i];
-        }
-        return copy;
+        return kategoriList;
     }
 
     public void addKategori(Kategori kategori) {
@@ -43,8 +39,8 @@ public class InventoryService {
     public void editKategori(Kategori updatedKategori) {
         for (int i = 0; i < kategoriList.length; i++) {
             if (kategoriList[i].getId() == updatedKategori.getId()) {
-                kategoriList[i].setNama(updatedKategori.getNama());
-                kategoriList[i].setUpdatedAt((int) (System.currentTimeMillis() / 1000L));
+                kategoriList[i].setNama(updatedKategori.getName());
+                kategoriList[i].setUpdatedAt();
                 System.out.println("Update Terakhir Kategori: " + kategoriList[i]);
                 return;
             }
@@ -68,11 +64,40 @@ public class InventoryService {
         System.out.println("Kategori dengan id " + id + " tidak ditemukan.");
     }
 
+    public String getKategoriByName(String name) {
+        for (int i = 0; i < kategoriList.length; i++) {
+            if (kategoriList[i].getName() != name) {
+                continue;
+            }
+
+            return kategoriList[i].getName();
+        }
+        return "Tidak Diketahui";
+    }
+
+    public String[] getAllKategoriName() {
+        String[] kategori = new String[kategoriList.length];
+
+        for (int i = 0; i < kategoriList.length; i++) {
+            kategori[i] = kategoriList[i].getName();
+        }
+
+        return kategori;
+    }
 
     public Barang[] getBarangList() {
-        Barang[] copy = new Barang[barangList.length];
-        System.arraycopy(barangList, 0, copy, 0, barangList.length);
-        return copy;
+        return barangList;
+    }
+
+    public Barang getBarangById(String id) {
+        for (int i = 0; i < barangList.length; i++) {
+            if (barangList[i].getId() != id) {
+                continue;
+            }
+
+            return barangList[i];
+        }
+        return new Barang("", "", 0, 0, "", "");
     }
 
     public void addBarang(Barang barang) {
@@ -85,9 +110,12 @@ public class InventoryService {
 
     public void editBarang(Barang updatedBarang) {
         for (int i = 0; i < barangList.length; i++) {
+            System.out.println(barangList[i].getId() == updatedBarang.getId());
             if (barangList[i].getId() == updatedBarang.getId()) {
                 barangList[i].setNama(updatedBarang.getNama());
-                barangList[i].setUpdatedAt((int) (System.currentTimeMillis() / 1000L));
+                barangList[i].setHarga(updatedBarang.getHarga());
+                barangList[i].setDescription(updatedBarang.getDescription());
+                barangList[i].setUpdatedAt();
                 System.out.println("Update Terakhir Barang: " + barangList[i]);
                 return;
             }
@@ -96,7 +124,6 @@ public class InventoryService {
     }
 
     public void deleteBarang(String id) {
-//        int barangId = Integer.parseInt(id);
         for (int i = 0; i < barangList.length; i++) {
             if (Objects.equals(barangList[i].getId(), id)) {
                 Barang deletedBarang = barangList[i];
