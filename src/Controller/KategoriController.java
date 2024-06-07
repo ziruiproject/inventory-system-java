@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Barang;
 import Model.Kategori;
 import Service.InventoryService;
 import View.View;
@@ -25,6 +26,25 @@ public class KategoriController {
 
             inventoryService.addKategori(new Kategori(id, name));
 
+            updateKategoriTable();
+        });
+
+        view.editCategoryListener((ActionEvent e) -> {
+            int selectedRow = view.getSelectedKategoriRow();
+            String id = view.getSelectedKategoriId(selectedRow);
+
+            Kategori kategori = inventoryService.getKategoriById(id);
+
+            String[] newKategori = view.showEditCategoryDialog(kategori);
+
+            String name = newKategori[1];
+
+            Kategori updatedKategori = new Kategori(Integer.parseInt(id), name);
+
+            inventoryService.updateKategori(kategori.getName(), name);
+            inventoryService.editKategori(updatedKategori);
+
+            updateKategoriTable();
             updateProductTable();
         });
 
@@ -34,16 +54,26 @@ public class KategoriController {
 
             inventoryService.deleteKategori(id);
 
-            updateProductTable();
+            updateKategoriTable();
         });
     }
 
-    private void updateProductTable() {
+    private void updateKategoriTable() {
         view.clearKategoriTable();
         for (Kategori kategori : inventoryService.getKategoriList()) {
             view.addKategoriToTable(
                     new Object[] { kategori.getId(), kategori.getName(), kategori.getCreatedAt(),
                             kategori.getUpdatedAt() });
+        }
+    }
+
+    private void updateProductTable() {
+        view.clearProductTable();
+        for (Barang barang : inventoryService.getBarangList()) {
+            view.addProductToTable(
+                    new Object[] { barang.getId(), barang.getNama(), barang.getStok(), barang.getHarga(),
+                            barang.getDescription(), barang.getKategori(), barang.getCreatedAt(),
+                            barang.getUpdatedAt() });
         }
     }
 }

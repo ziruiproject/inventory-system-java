@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import Model.Barang;
+import Model.Kategori;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -240,6 +241,28 @@ public class View {
                     createdAtField.getText(),
                     updatedAtField.getText()
             };
+        }
+        return null;
+    }
+
+    public String[] showEditCategoryDialog(Kategori existingCategoryData) {
+        JTextField idField = new JTextField(10);
+        idField.setText(Integer.toString(existingCategoryData.getId()));
+        idField.setEditable(false); // making Category ID non-editable
+
+        JTextField nameField = new JTextField(20);
+        nameField.setText(existingCategoryData.getName());
+
+        JPanel panel = new JPanel(new GridLayout(2, 2));
+        panel.add(new JLabel("Category ID:"));
+        panel.add(idField);
+        panel.add(new JLabel("Name:"));
+        panel.add(nameField);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Edit Category", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            return new String[] { idField.getText(), nameField.getText() };
         }
         return null;
     }

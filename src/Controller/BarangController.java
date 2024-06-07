@@ -18,8 +18,10 @@ public class BarangController {
         inventoryService = InventoryService.getInstance();
 
         // Sample initial data
-        inventoryService.addBarang(new Barang("1", "Product A", 10, 100, "lorem ipsum dolor sit amet", "Minuman"));
-        inventoryService.addBarang(new Barang("2", "Product B", 20, 200, "lorem ipsum dolor sit amet", "Makanan"));
+        // inventoryService.addBarang(new Barang("1", "Product A", 10, 100, "lorem ipsum
+        // dolor sit amet", "Minuman"));
+        // inventoryService.addBarang(new Barang("2", "Product B", 20, 200, "lorem ipsum
+        // dolor sit amet", "Makanan"));
 
         // Populate the view's table with initial data
 

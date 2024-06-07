@@ -42,10 +42,20 @@ public class InventoryService {
                 kategoriList[i].setNama(updatedKategori.getName());
                 kategoriList[i].setUpdatedAt();
                 System.out.println("Update Terakhir Kategori: " + kategoriList[i]);
+
                 return;
             }
         }
         System.out.println("Kategori dengan id: " + updatedKategori.getId() + " tidak ditemukan.");
+    }
+
+    public void updateKategori(String kategoriName, String updated) {
+        for (int i = 0; i < barangList.length; i++) {
+            if (barangList[i].getKategori() == kategoriName) {
+                System.out.println(barangList[i].getKategori());
+                barangList[i].setKategori(updated);
+            }
+        }
     }
 
     public void deleteKategori(String id) {
@@ -64,15 +74,15 @@ public class InventoryService {
         System.out.println("Kategori dengan id " + id + " tidak ditemukan.");
     }
 
-    public String getKategoriByName(String name) {
+    public Kategori getKategoriById(String id) {
         for (int i = 0; i < kategoriList.length; i++) {
-            if (kategoriList[i].getName() != name) {
+            if (kategoriList[i].getId() != Integer.parseInt(id)) {
                 continue;
             }
 
-            return kategoriList[i].getName();
+            return kategoriList[i];
         }
-        return "Tidak Diketahui";
+        return new Kategori(0, "");
     }
 
     public String[] getAllKategoriName() {
